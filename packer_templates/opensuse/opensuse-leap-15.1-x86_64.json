@@ -25,7 +25,8 @@
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
       "output_directory": "{{ user `build_directory` }}/packer-{{user `template`}}-virtualbox",
-      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/shutdown -h now",
+      "post_shutdown_delay": "60s",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
@@ -33,6 +34,11 @@
       "type": "virtualbox-iso",
       "memory": "{{ user `memory` }}",
       "cpus": "{{ user `cpus` }}",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--nic2", "intnet"],
+        ["modifyvm", "{{.Name}}", "--nictype2", "82540EM"],
+        ["modifyvm", "{{.Name}}", "--macaddress2", "080000d00d00"]
+      ],
       "virtualbox_version_file": ".vbox_version",
       "vm_name": "{{ user `template` }}"
     },

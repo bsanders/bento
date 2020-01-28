@@ -29,6 +29,9 @@
       "memory": "{{ user `memory` }}",
       "cpus": "{{ user `cpus` }}",
       "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--nic2", "intnet"],
+        ["modifyvm", "{{.Name}}", "--nictype2", "82540EM"],
+        ["modifyvm", "{{.Name}}", "--macaddress2", "080000d00d00"],
         [
           "storageattach",
           "{{.Name}}",
